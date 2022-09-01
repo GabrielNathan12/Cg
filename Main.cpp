@@ -44,12 +44,48 @@ void display() {
     glRotatef((GLfloat) 90, 1.0f, 0.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
+    //Tronco
     glPushMatrix();
         glColor3f(0,1,0);
-        gluCylinder(quadrado, 1.0, 1, 3, 30, 10);
+        //parametro o objeto quadric, raio em z, raio em zheight , altura , fatias , pilhas
+        glTranslatef(0.0 , 0.0 , 0.0);  
+        gluCylinder(quadrado, 1.0, 1, 3, 30, 30);
+    glPopMatrix();
+
+    //Braco direito
+    glPushMatrix();
+        glColor3f(1,0,0);
+        //parametro o objeto quadric, raio em z, raio em zheight , altura , fatias , pilhas
+        glTranslatef(1.0 , 1.0 , 0.0);  
+        gluCylinder(quadrado, 1.0, 1, 1, 30, 30);
+    glPopMatrix();
+
+    //Braco esquerdo
+    glPushMatrix();
+        glColor3f(1,0,0);
+        //parametro o objeto quadric, raio em z, raio em zheight , altura , fatias , pilhas
+        glTranslatef(-1.0 , 1.0 , 0.0);  
+        gluCylinder(quadrado, 1.0, 1, 1, 30, 30);
+    glPopMatrix();
+
+    //Perna direita 
+    glPushMatrix();
+        glColor3f(1,0,0);
+        //parametro o objeto quadric, raio em z, raio em zheight , altura , fatias , pilhas
+        glTranslatef(1.0 , 0.4 , 0.0);  
+        gluCylinder(quadrado, 1.0, 1, 1, 30, 30);
+    glPopMatrix();
+
+    //Perna esquerda
+    glPushMatrix();
+        glColor3f(1,0,0);
+        //parametro o objeto quadric, raio em z, raio em zheight , altura , fatias , pilhas
+        glTranslatef(-1.0 , -1.0 , 0.0);  
+        gluCylinder(quadrado, 1.0, 1, 1, 30, 30);
     glPopMatrix();
 
     glutSwapBuffers();
+    glFlush();
 }
 
 void keyboard(unsigned char key, int x, int y) {
@@ -72,7 +108,7 @@ int main(int argc, char **argv) {
 
     glutInitWindowSize (777, 777);
     glutInitWindowPosition(100, 10);
-    glutCreateWindow("Motor");
+    glutCreateWindow("Personagens");
 
     glutDisplayFunc(display);
     glutIdleFunc(display);
