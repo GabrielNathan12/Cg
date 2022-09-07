@@ -28,12 +28,12 @@ class Humano {
     public:
         float cabeca_x , cabeca_y , cabeca_z;
         float pescoco_x , pescoco_y , pescoco_z;
-        float torso_x , torco_y , torco_z;
+        float torso_x , torso_y , torso_z;
         float bracoE_x , bracoE_y , bracoE_z;
         float bracoD_x , bracoD_y , bracoD_z;
         float ombroE , ombroD;
         float quadril_x , quadril_y , quadril_z;
-        float moverQuadril_x , moverQualdril_y , moverQuadril_z;
+        float moverQuadril_x , moverQuadril_y , moverQuadril_z;
         float pernaE_x , pernaE_y , pernaE_z;
         float pernaD_x , pernaD_y , pernaD_z;
         float pernaE , pernaD;
@@ -41,11 +41,11 @@ class Humano {
         GLuint cabecaList;
         GLuint perscoList;
         GLuint torsoList;
-        GLuint bracoEList;
-        GLuint bracoDList;
+        GLuint bracoDList; 
+        GLuint bracoEList; 
         GLuint quadrilList;
+        GLuint pernaDList; 
         GLuint pernaEList;
-        GLuint pernaDList;
 
         void criarListPontos();
         void DesenhaTudo();
@@ -86,12 +86,12 @@ void Humano :: criarPescocoList(){
     glNewList(perscoList , GL_COMPILE);
 
     //TexturaHimano = tex.loadBMP_custom("Passa o caminho da imagem");
-    glColor2f(1.0f , 0.8f , 0.2f);
+    glColor3f(1.0f , 0.8f , 0.2f);
     GLUquadricObj *quadratico;
     quadratico = gluNewQuadric();
     glRotatef(90.0f , 1.0f , 0.0f , 0.0f);
     //gluQuadrictTexture(quadratico , 1);
-    gluCylinder(quadratico , 1);
+    gluCylinder(quadratico ,  2.5f , 2.0f , 5.0f , 32 , 32);
     gluDisk(quadratico , 0.0f , 0.6f , 32 , 32);
     glRotatef(-90.0f , 1.0f , 0.0f , 0.0f);
 
@@ -122,8 +122,9 @@ void Humano :: criarBraco1List(){
     bracoDList = glGenLists(1);
     
     glNewList(bracoDList , GL_COMPILE);
-    glColor3f(0,0f , 1.0f , 0.2f);
+    glColor3f(0.0f , 1.0f , 0.2f);
     GLUquadricObj *quadratico;
+    quadratico = gluNewQuadric();
     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
 		//gluQuadricTexture(quadratico,1);
 	gluCylinder(quadratico,0.6f,0.6f,3.0f,32,32);
@@ -233,7 +234,7 @@ void Humano :: DesenhaTudo(){
     
     // Quadril
     glPushMatrix();
-		glTranslatef(moverQuadril_x,moverQualdril_y,moverQualdril_z);
+		glTranslatef(moverQuadril_x,moverQuadril_y,moverQuadril_z);
 		glTranslatef(0.0f, -1.0f, 0.0f);
 		glRotatef(quadril_x,1.0,0.0,0.0);
 		glRotatef(quadril_z,0.0,0.0,1.0);
@@ -280,124 +281,131 @@ void Humano :: DesenhaTudo(){
 			glCallList(ombroD);
 
 			glTranslatef(0.0,-3.0f,0.0f);
-			glRotatef(rightLowerArmx,1.0,0.0,0.0f);
-			glCallList(lowerArmList);
+			glRotatef(ombroD,1.0,0.0,0.0f);
+			glCallList(bracoEList);
 		glPopMatrix();
 
 		glPushMatrix();
 			glTranslatef(-2.5f,-0.0f,0.0f);
-			glRotatef(leftUpperArmx,1.0,0.0,0.0);
-			glRotatef(leftUpperArmz,0.0,0.0,1.0);
-			glRotatef(leftUpperArmy,0.0,1.0,0.0);
-			glCallList(upperArmList);
+			glRotatef(bracoE_x,1.0,0.0,0.0);
+			glRotatef(bracoE_z,0.0,0.0,1.0);
+			glRotatef(bracoE_y,0.0,1.0,0.0);
+			glCallList(bracoDList);
 
 			glTranslatef(0.0,-3.0f,0.0f);
-			glRotatef(leftLowerArmx,1.0,0.0,0.0f);
-			glCallList(lowerArmList);
+			glRotatef(ombroE,1.0,0.0,0.0f);
+			glCallList(bracoEList);
 		glPopMatrix();
 
 		
-		glRotatef(neckx,1.0,0.0,0.0);
-		glRotatef(neckz,0.0,0.0,1.0);
-		glRotatef(necky,0.0,1.0,0.0);
+		glRotatef(pescoco_x,1.0,0.0,0.0);
+		glRotatef(pescoco_z,0.0,0.0,1.0);
+		glRotatef(pescoco_y,0.0,1.0,0.0);
 		glTranslatef(0.0f,0.6f,0.0f);
-		glCallList(neckList);
+		glCallList(perscoList);
 
-		glRotatef(headx,1.0,0.0,0.0);
-		glRotatef(headz,0.0,0.0,1.0);
-		glRotatef(heady,0.0,1.0,0.0);
+		glRotatef(cabeca_x,1.0,0.0,0.0);
+		glRotatef(cabeca_z,0.0,0.0,1.0);
+		glRotatef(cabeca_y,0.0,1.0,0.0);
 		glTranslatef(0.0f,1.3f,0.0f);
-		glCallList(headList);
+		glCallList(cabecaList);
 
 
 	glPopMatrix();
 }
 
-Human::Human(){
-	headx=0.0f;
-	heady=0.0f;
-	headz=0.0f;
+Humano :: Humano(){
 
-	neckx=0.0f;
-	necky=0.0f;
-	neckz=0.0f;
+    cabeca_x = 0.0f;
+    cabeca_y = 0.0f;
+    cabeca_z = 0.0f;
 
-	torsox=0.0f;
-	torsoy=0.0f;
-	torsoz=0.0f;
+    pescoco_x = 0.0f;
+    pescoco_y = 0.0f;
+    pescoco_z = 0.0f;
 
-	leftUpperArmx=0.0f;
-	leftUpperArmy=0.0f;
-	leftUpperArmz=-10.0f;
+    torso_x = 0.0f;
+    torso_y = 0.0f;
+    torso_z = 0.0f;
+    
+    bracoE_x = 0.0f; 
+    bracoE_y = 0.0f; 
+    bracoE_z = -10.0f;
+    
+    bracoD_x = 0.0f;
+    bracoD_y = 0.0f, 
+    bracoD_z = 10.0f;
 
-	rightUpperArmx=0.0f;
-	rightUpperArmy=0.0f;
-	rightUpperArmz=10.0f;
+    ombroE = -10.0f;
+    ombroD = -50.0f;
 
-	leftLowerArmx=-10.0f;
-	rightLowerArmx=-50.0f;
+    quadril_x = 0.0f;
+    quadril_y = 0.0f;
+    quadril_z = 0.0f;
 
-	hipx=0.0f;
-	hipy=0.0f;
-	hipz=0.0f;
-	hipTranslatex=0.0f;
-	hipTranslatey=0.0f;
-	hipTranslatez=0.0f;
+    moverQuadril_x = 0.0f; 
+    moverQuadril_y = 0.0f; 
+    moverQuadril_z = 0.0f;
+    
+    pernaE_x = 0.0f;
+    pernaE_y = 0.0f; 
+    pernaE_z = -5.0f;
 
-	leftUpperLegx=0.0f;
-	leftUpperLegy=0.0f;
-	leftUpperLegz=-5.0f;
+    pernaD_x =  0.0f; 
+    pernaD_y = 0.0f; 
+    pernaD_z = 5.0f;
 
-	rightUpperLegx=0.0f;
-	rightUpperLegy=0.0f;
-	rightUpperLegz=5.0f;
+    pernaE = 0.0f;
+    pernaD = 0.0f;
 
-	leftLowerLegx=0.0f;
-	rightLowerLegx=0.0f;
+
 }
 
-void Human::reset(){
-	headx=0.0f;
-	heady=0.0f;
-	headz=0.0f;
+void Humano :: reset(){
+	cabeca_x = 0.0f;
+    cabeca_y = 0.0f;
+    cabeca_z = 0.0f;
 
-	neckx=0.0f;
-	necky=0.0f;
-	neckz=0.0f;
+    pescoco_x = 0.0f;
+    pescoco_y = 0.0f;
+    pescoco_z = 0.0f;
 
-	torsox=0.0f;
-	torsoy=0.0f;
-	torsoz=0.0f;
+    torso_x = 0.0f;
+    torso_y = 0.0f;
+    torso_z = 0.0f;
+    
+    bracoE_x = 0.0f; 
+    bracoE_y = 0.0f; 
+    bracoE_z = -10.0f;
+    
+    bracoD_x = 0.0f;
+    bracoD_y = 0.0f, 
+    bracoD_z = 10.0f;
 
-	leftUpperArmx=0.0f;
-	leftUpperArmy=0.0f;
-	leftUpperArmz=-10.0f;
+    ombroE = -10.0f;
+    ombroD = -50.0f;
 
-	rightUpperArmx=0.0f;
-	rightUpperArmy=0.0f;
-	rightUpperArmz=10.0f;
+    quadril_x = 0.0f;
+    quadril_y = 0.0f;
+    quadril_z = 0.0f;
 
-	leftLowerArmx=-10.0f;
-	rightLowerArmx=-50.0f;
+    moverQuadril_x = 0.0f; 
+    moverQuadril_y = 0.0f; 
+    moverQuadril_z = 0.0f;
+    
+    pernaE_x = 0.0f;
+    pernaE_y = 0.0f; 
+    pernaE_z = -5.0f;
 
-	hipx=0.0f;
-	hipy=0.0f;
-	hipz=0.0f;
-	hipTranslatex=0.0f;
-	hipTranslatey=0.0f;
-	hipTranslatez=0.0f;
+    pernaD_x =  0.0f; 
+    pernaD_y = 0.0f; 
+    pernaD_z = 5.0f;
 
-	leftUpperLegx=0.0f;
-	leftUpperLegy=0.0f;
-	leftUpperLegz=-5.0f;
+    pernaE = 0.0f;
+    pernaD = 0.0f;
 
-	rightUpperLegx=0.0f;
-	rightUpperLegy=0.0f;
-	rightUpperLegz=5.0f;
-
-	leftLowerLegx=0.0f;
-	rightLowerLegx=0.0f;
 }
+
 void init() {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -410,7 +418,8 @@ void init() {
 
     glEnable(GL_DEPTH_TEST);
     quadrado = gluNewQuadric();
-}
+    Humano hum ;
+    hum.criarListPontos();}
 
 void display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -430,8 +439,9 @@ void display() {
     glRotatef((GLfloat) rx, 0.0f, 1.0f, 0.0f);
     glRotatef((GLfloat) 90, 1.0f, 0.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT);
-
-    
+    glColor3f(1.0f, 1.0f, 1.0f); 
+    Humano humano;
+    humano.DesenhaTudo();
     glFlush();
 }
 
