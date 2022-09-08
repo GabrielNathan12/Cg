@@ -9,52 +9,81 @@ using namespace std;
 float rx = 0, rz = 0;
 
 float abertura = 40.0, znear = 1, zfar = 20, aspect = 1;
-GLUquadricObj *quadrado;
+//GLUquadricObj *quadrado;
 
 #ifndef HUMANO_H
 #define HUMANO_H
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
+GLuint texID;
+
+void carregaTextura(std::string dirTextura, GLuint id){
+	unsigned char * imgData;
+	int largura, altura, canais;
+	imgData = stbi_load(dirTextura.c_str(), &largura, &altura, &canais, 4);
+	if(imgData){
+		glBindTexture(GL_TEXTURE_2D, id);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, largura, altura, 0, GL_RGBA, GL_UNSIGNED_BYTE, imgData);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		
+		stbi_image_free(imgData);
+	}else{
+		std::cout << "Deu ruim a textura irmão :(\n";
+	}
+
+}
 
 class Humano {
     private :
         void criarCabecaList();
         void criarPescocoList();
         void criarTorsoList();
-        void criarBraco1List();
-        void criarBraco2List();
+        void criarBracoDirList();
+        void criarBracoEsqList();
         void criarQuadrilList();
-        void criarPerna1List();
-        void criarPerna2List();
+        void criarPernaDirList();
+        void criarPernaEsqList();
     
     public:
-        float cabeca_x , cabeca_y , cabeca_z;
-        float pescoco_x , pescoco_y , pescoco_z;
-        float torso_x , torso_y , torso_z;
-        float bracoE_x , bracoE_y , bracoE_z;
-        float bracoD_x , bracoD_y , bracoD_z;
-        float ombroE , ombroD;
-        float quadril_x , quadril_y , quadril_z;
-        float moverQuadril_x , moverQuadril_y , moverQuadril_z;
-        float pernaE_x , pernaE_y , pernaE_z;
-        float pernaD_x , pernaD_y , pernaD_z;
-        float pernaE , pernaD;
-
+        float cabeca_x , cabeca_y , cabeca_z; // certo 
+        float pescoco_x , pescoco_y , pescoco_z; // certo 
+        float torso_x , torso_y , torso_z; // certo 
+        float bracoE_x , bracoE_y , bracoE_z; // leftUpperArmx
+        float bracoD_x , bracoD_y , bracoD_z; // rightUpperArmx;
+        float ombroE , ombroD; // leftLowerArmx , rightLowerArmx
+        float quadril_x , quadril_y , quadril_z; // certo 
+        float moverQuadril_x , moverQuadril_y , moverQuadril_z; // certo 
+        float pernaE_x , pernaE_y , pernaE_z; // leftUpperLegx
+        float pernaD_x , pernaD_y , pernaD_z; // rightUpperLegx
+        float pernaE , pernaD; // leftLowerLegx , rightLowerLegx
+ 
         GLuint cabecaList;
         GLuint perscoList;
         GLuint torsoList;
         GLuint bracoDList; 
         GLuint bracoEList; 
         GLuint quadrilList;
-        GLuint pernaDList; 
-        GLuint pernaEList;
+        GLuint pernaEList; 
+        GLuint pernaDList;
 
         void criarListPontos();
         void DesenhaTudo();
         void reset();
         Humano();
+        ~Humano();
 
 };
 
 #endif
+
+Humano :: ~Humano(){
+
+}
 
 void Humano :: criarCabecaList(){
     cabecaList = glGenLists(1);
@@ -62,6 +91,7 @@ void Humano :: criarCabecaList(){
 
     glPushMatrix();
         glScalef(0.9f , 1.0f , 1.0f);
+        glColor3f(0.0f, 1.0f, 0.8f); 
         GLUquadricObj *quadratico;
         quadratico = gluNewQuadric();
         //gluQuadricTexture(quadratico ,1);
@@ -86,9 +116,10 @@ void Humano :: criarPescocoList(){
     glNewList(perscoList , GL_COMPILE);
 
     //TexturaHimano = tex.loadBMP_custom("Passa o caminho da imagem");
-    glColor3f(1.0f , 0.8f , 0.2f);
+    glColor3f(0.0f, 1.0f, 0.8f); 
     GLUquadricObj *quadratico;
     quadratico = gluNewQuadric();
+    glScalef(0.9f , 1.0f , 1.0f);
     glRotatef(90.0f , 1.0f , 0.0f , 0.0f);
     //gluQuadrictTexture(quadratico , 1);
     gluCylinder(quadratico ,  2.5f , 2.0f , 5.0f , 32 , 32);
@@ -99,14 +130,23 @@ void Humano :: criarPescocoList(){
 }
 
 void Humano :: criarTorsoList(){
-    //Aplicar textura aqui
+    glEnable(GL_TEXTURE_2D);
+    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+    glGenTextures(1, &texID);
     torsoList = glGenLists(1);
-    
+    carregaTextura("vasco.png" , texID);
+
     glNewList(torsoList , GL_COMPILE);
+    glColor3f(0.0f, 1.0f, 0.8f); 
     GLUquadricObj *quadratico;
     quadratico = gluNewQuadric();
+    glScalef(0.9f , 1.0f , 1.0f);
     glRotatef(90.0f , 1.0f , 0.0f , 0.0f);
     //gluQuadricTexture(quadratico , 1);
+    glBindTexture(GL_TEXTURE_2D , texID);
+    glTexCoord2f(0.0, 0.0);
+    glTexCoord2f(100.0, 100.0);
+    glTexCoord2f(100.0, 0.0);
     gluCylinder(quadratico , 2.5f , 2.0f , 5.0f , 32 , 32);
     gluDisk(quadratico , 0.0f , 2.5f , 32 , 32);
 
@@ -116,15 +156,18 @@ void Humano :: criarTorsoList(){
     glPopMatrix();
     glRotatef(-90.0f , 1.0f , 0.0f , 0.0f);
     glEndList();
+    glDisable(GL_TEXTURE_2D);
+
 }
 
-void Humano :: criarBraco1List(){
+void Humano :: criarBracoDirList(){
     bracoDList = glGenLists(1);
     
     glNewList(bracoDList , GL_COMPILE);
-    glColor3f(0.0f , 1.0f , 0.2f);
+    glColor3f(0.0f, 1.0f, 0.8f); 
     GLUquadricObj *quadratico;
     quadratico = gluNewQuadric();
+    glScalef(0.9f , 1.0f , 1.0f);
     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
 		//gluQuadricTexture(quadratico,1);
 	gluCylinder(quadratico,0.6f,0.6f,3.0f,32,32);
@@ -140,13 +183,14 @@ void Humano :: criarBraco1List(){
     
 }
 
-void Humano :: criarBraco2List(){
+void Humano :: criarBracoEsqList(){
     bracoEList = glGenLists (1);
 	
     glNewList(bracoEList , GL_COMPILE);
     glColor3f(0.0f, 1.0f, 0.8f);    
     GLUquadricObj *quadratico;
     quadratico = gluNewQuadric();
+    glScalef(0.9f , 1.0f , 1.0f);
     glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
     //gluQuadricTexture(quadratic,1);
     gluCylinder(quadratico,0.6f,0.4f,4.0f,32,32);
@@ -167,9 +211,11 @@ void Humano :: criarQuadrilList(){
     glNewList(quadrilList, GL_COMPILE);
 		//Texture tex;
 		//humanTexture = tex.loadBMP_custom("./images/belt.bmp");
+        glColor3f(0.0f, 1.0f, 0.8f); 
 		GLUquadricObj *quadratico;
 		quadratico = gluNewQuadric();
 		glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
+        glScalef(0.9f , 1.0f , 1.0f);
 		//gluQuadricTexture(quadratic,1);
 		gluCylinder(quadratico,2.1f,2.1f,1.0f,32,32);
 
@@ -182,22 +228,23 @@ void Humano :: criarQuadrilList(){
 	glEndList();
 }
 
-void Humano :: criarPerna1List(){
+void Humano :: criarPernaDirList(){
     pernaDList = glGenLists (1);
 	glNewList(pernaDList, GL_COMPILE);
 		//Texture tex;
 		//humanTexture = tex.loadBMP_custom("./images/trouser.bmp");
-		glColor3f(1.0f, 1.0f, 0.0f);    
+		glColor3f(0.0f, 1.0f, 0.8f);    
 		GLUquadricObj *quadratico;
 		quadratico = gluNewQuadric();
+        glScalef(0.9f , 1.0f , 1.0f);
 		glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-		gluQuadricTexture(quadratico,1);
+		//gluQuadricTexture(quadratico,1);
 		gluCylinder(quadratico,1.0f,1.0f,4.0f,32,32);
 		glRotatef(-90.0f, 1.0f, 0.0f, 0.0f);
 	glEndList();
 }
 
-void Humano :: criarPerna2List(){
+void Humano :: criarPernaEsqList(){
     pernaEList = glGenLists (1);
 	
     glNewList(pernaEList, GL_COMPILE);
@@ -206,8 +253,9 @@ void Humano :: criarPerna2List(){
 		glColor3f(0.0f, 1.0f, 0.8f);    
 		GLUquadricObj *quadratico;
 		quadratico = gluNewQuadric();
+        glScalef(0.9f , 1.0f , 1.0f);
 		glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
-		gluQuadricTexture(quadratico,1);
+		//gluQuadricTexture(quadratico,1);
 		gluCylinder(quadratico,1.0f,0.8f,6.0f,32,32);
 
 		glPushMatrix();
@@ -223,13 +271,13 @@ void Humano :: criarListPontos(){
     criarCabecaList();
     criarPescocoList();
     criarTorsoList();
-    criarBraco1List();
-    criarBraco2List();
+    criarBracoDirList();
+    criarBracoEsqList();
     criarQuadrilList();
-    criarPerna1List();
-    criarPerna2List();
+    criarPernaDirList();
+    criarPernaEsqList();
 }
-//Arrumar daqui para baixo
+
 void Humano :: DesenhaTudo(){
     
     // Quadril
@@ -278,7 +326,7 @@ void Humano :: DesenhaTudo(){
 			glRotatef(bracoD_x,1.0,0.0,0.0);
 			glRotatef(bracoD_z,0.0,0.0,1.0);
 			glRotatef(bracoD_y,0.0,1.0,0.0);
-			glCallList(ombroD);
+			glCallList(bracoDList);
 
 			glTranslatef(0.0,-3.0f,0.0f);
 			glRotatef(ombroD,1.0,0.0,0.0f);
@@ -406,20 +454,23 @@ void Humano :: reset(){
 
 }
 
+Humano humano;
+
 void init() {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(abertura, aspect, znear, zfar);
     glMatrixMode(GL_MODELVIEW);
 
-    glClearColor(0, 0, 0, 1);
+    glClearColor(0.0f,0.0f,0.0f,0.0f);
 
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     glEnable(GL_DEPTH_TEST);
-    quadrado = gluNewQuadric();
-    Humano hum ;
-    hum.criarListPontos();}
+    //quadrado = gluNewQuadric();
+   
+    humano.criarListPontos();
+}
 
 void display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -432,17 +483,18 @@ void display() {
     glMatrixMode(GL_MODELVIEW);
 
     glLoadIdentity();
-    gluLookAt(0, 0, 15,  //from. Posicao onde a camera esta posicionada
-              0, 0, 0,  //to. Posicao absoluta onde a camera esta vendo
-              0, 1, 0); //up. Vetor Up.
+    gluLookAt(0.0f, 0.0f, 20.0f,  //from. Posicao onde a camera esta posicionada
+              0.0f, 0.0f, 0.0f,  //to. Posicao absoluta onde a camera esta vendo
+              0.0f, 1.0f, 0.0f); //up. Vetor Up.
 
-    glRotatef((GLfloat) rx, 0.0f, 1.0f, 0.0f);
-    glRotatef((GLfloat) 90, 1.0f, 0.0f, 0.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glRotatef( 0.0f, 0.0f, 1.0f, 0.0f);
+    glRotatef(0.0f, 0.0f, 0.0f, 1.0f);
+    
     glColor3f(1.0f, 1.0f, 1.0f); 
-    Humano humano;
+    glScalef(0.2f , 0.2f , 0.2f);
     humano.DesenhaTudo();
     glFlush();
+    glutSwapBuffers();
 }
 
 void keyboard(unsigned char key, int x, int y) {
