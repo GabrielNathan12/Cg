@@ -6,18 +6,9 @@
 
 using namespace std;
 
-//float rx = 0, rz = 0;
-
-//float abertura = 40.0, znear = 1, zfar = 20, aspect = 1;
 
 #ifndef ESQUELETO_H
 #define ESQUELETO_H
-
-//#include "stb_image.h"
-
-//GLuint texID;
-
-//static int shoulder1 = 0;
 
 
 class Esqueleto {

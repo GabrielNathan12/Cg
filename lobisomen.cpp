@@ -4,15 +4,13 @@
 #include <cstdio>
 #include <iostream>
 
-
 using namespace std;
 
-#ifndef HUMANO_H
-#define HUMANO_H
+#ifndef LOBISOMEN_H
+#define LOBISOMEN_H
 
 
-
-class Humano{
+class Lobisomen {
     private :
         void criarCabecaList();
         void criarPescocoList();
@@ -48,14 +46,14 @@ class Humano{
         void criarListPontos();
         void DesenhaTudo();
         void reset();
-        Humano();
-        ~Humano();
+        Lobisomen();
+        ~Lobisomen();
 
 };
 
 #endif
 
-Humano :: Humano(){
+Lobisomen :: Lobisomen(){
 
     cabeca_x = 0.0f;
     cabeca_y = 0.0f;
@@ -102,17 +100,17 @@ Humano :: Humano(){
 
 }
 
-Humano :: ~Humano(){
+Lobisomen :: ~Lobisomen(){
 
 }
 
-void Humano :: criarCabecaList(){
+void Lobisomen :: criarCabecaList(){
     cabecaList = glGenLists(1);
     glNewList(cabecaList , GL_COMPILE);
 
     glPushMatrix();
         glScalef(0.9f , 1.0f , 1.0f);
-        glColor3f(0.0f, 1.0f, 0.3f); 
+        glColor3f(0.5f, 0.0f, 0.2f); 
         GLUquadricObj *quadratico;
         quadratico = gluNewQuadric();
         //gluQuadricTexture(quadratico ,1);
@@ -132,12 +130,12 @@ void Humano :: criarCabecaList(){
     glEndList();
 }
 
-void Humano :: criarPescocoList(){
+void Lobisomen :: criarPescocoList(){
     perscoList = glGenLists(1);
     glNewList(perscoList , GL_COMPILE);
 
     //TexturaHimano = tex.loadBMP_custom("Passa o caminho da imagem");
-    glColor3f(0.0f, 1.0f, 0.8f); 
+     glColor3f(0.5f, 0.0f, 0.2f); 
     GLUquadricObj *quadratico;
     quadratico = gluNewQuadric();
     glScalef(0.9f , 1.0f , 1.0f);
@@ -150,18 +148,18 @@ void Humano :: criarPescocoList(){
     glEndList();
 }
 
-void Humano :: criarTorsoList(){
+void Lobisomen :: criarTorsoList(){
     glEnable(GL_TEXTURE_2D);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-    
     torsoList = glGenLists(1);
-   
     glNewList(torsoList , GL_COMPILE);
-    glColor3f(0.0f, 1.0f, 0.8f); 
+    glColor3f(0.5f, 0.0f, 0.2f); 
     GLUquadricObj *quadratico;
     quadratico = gluNewQuadric();
     glScalef(0.9f , 1.0f , 1.0f);
     glRotatef(90.0f , 1.0f , 0.0f , 0.0f);
+    //gluQuadricTexture(quadratico , 1);
+   
     glTexCoord2f(0.0, 0.0);
     glTexCoord2f(100.0, 100.0);
     glTexCoord2f(100.0, 0.0);
@@ -178,11 +176,11 @@ void Humano :: criarTorsoList(){
 
 }
 
-void Humano :: criarBracoDirList(){
+void Lobisomen :: criarBracoDirList(){
     bracoDList = glGenLists(1);
     
     glNewList(bracoDList , GL_COMPILE);
-    glColor3f(0.0f, 1.0f, 0.8f); 
+     glColor3f(0.5f, 0.0f, 0.2f); 
     GLUquadricObj *quadratico;
     quadratico = gluNewQuadric();
     glScalef(0.9f , 1.0f , 1.0f);
@@ -201,11 +199,11 @@ void Humano :: criarBracoDirList(){
     
 }
 
-void Humano :: criarBracoEsqList(){
+void Lobisomen :: criarBracoEsqList(){
     bracoEList = glGenLists (1);
 	
     glNewList(bracoEList , GL_COMPILE);
-    glColor3f(0.0f, 1.0f, 0.8f);    
+     glColor3f(0.5f, 0.0f, 0.2f);     
     GLUquadricObj *quadratico;
     quadratico = gluNewQuadric();
     glScalef(0.9f , 1.0f , 1.0f);
@@ -223,13 +221,13 @@ void Humano :: criarBracoEsqList(){
 	glEndList();
 }
 
-void Humano :: criarQuadrilList(){
+void Lobisomen :: criarQuadrilList(){
     quadrilList = glGenLists (1);
 	
     glNewList(quadrilList, GL_COMPILE);
 		//Texture tex;
 		//humanTexture = tex.loadBMP_custom("./images/belt.bmp");
-        glColor3f(0.0f, 1.0f, 0.8f); 
+        glColor3f(0.5f, 0.0f, 0.2f); 
 		GLUquadricObj *quadratico;
 		quadratico = gluNewQuadric();
 		glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
@@ -246,12 +244,12 @@ void Humano :: criarQuadrilList(){
 	glEndList();
 }
 
-void Humano :: criarPernaDirList(){
+void Lobisomen :: criarPernaDirList(){
     pernaDList = glGenLists (1);
 	glNewList(pernaDList, GL_COMPILE);
 		//Texture tex;
 		//humanTexture = tex.loadBMP_custom("./images/trouser.bmp");
-		glColor3f(0.0f, 1.0f, 0.8f);    
+		glColor3f(0.5f, 0.0f, 0.2f);  
 		GLUquadricObj *quadratico;
 		quadratico = gluNewQuadric();
         glScalef(0.9f , 1.0f , 1.0f);
@@ -262,13 +260,13 @@ void Humano :: criarPernaDirList(){
 	glEndList();
 }
 
-void Humano :: criarPernaEsqList(){
+void Lobisomen :: criarPernaEsqList(){
     pernaEList = glGenLists (1);
 	
     glNewList(pernaEList, GL_COMPILE);
 		//Texture tex;
 		//humanTexture = tex.loadBMP_custom("./images/trouser.bmp");
-		glColor3f(0.0f, 1.0f, 0.8f);    
+		 glColor3f(0.5f, 0.0f, 0.2f);   
 		GLUquadricObj *quadratico;
 		quadratico = gluNewQuadric();
         glScalef(0.9f , 1.0f , 1.0f);
@@ -285,7 +283,7 @@ void Humano :: criarPernaEsqList(){
 	glEndList();
 }
 
-void Humano :: criarListPontos(){
+void Lobisomen :: criarListPontos(){
     criarCabecaList();
     criarPescocoList();
     criarTorsoList();
@@ -296,7 +294,7 @@ void Humano :: criarListPontos(){
     criarPernaEsqList();
 }
 
-void Humano :: DesenhaTudo(){
+void Lobisomen :: DesenhaTudo(){
     
     // Quadril
     glPushMatrix();
@@ -381,7 +379,7 @@ void Humano :: DesenhaTudo(){
 }
 
 
-void Humano :: reset(){
+void Lobisomen :: reset(){
 	cabeca_x = 0.0f;
     cabeca_y = 0.0f;
     cabeca_z = 0.0f;
