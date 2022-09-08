@@ -4,49 +4,13 @@
 #include <cstdio>
 #include <iostream>
 
-
 using namespace std;
 
-float rx = 0, rz = 0;
+#ifndef ZUMBI_H
+#define ZUMBI_H
 
-float abertura = 40.0, znear = 1, zfar = 20, aspect = 1;
 
-#ifndef HUMANO_H
-#define HUMANO_H
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
-
-#include "esqueleto.cpp"
-#include "zumbi.cpp"
-
-Esqueleto esq;
-Zumbi zun;
-
-GLuint texID;
-
-static int shoulder = 0;
-
-void carregaTextura(std::string dirTextura, GLuint id){
-	unsigned char * imgData;
-	int largura, altura, canais;
-	imgData = stbi_load(dirTextura.c_str(), &largura, &altura, &canais, 4);
-	if(imgData){
-		glBindTexture(GL_TEXTURE_2D, id);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, largura, altura, 0, GL_RGBA, GL_UNSIGNED_BYTE, imgData);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		
-		stbi_image_free(imgData);
-	}else{
-		std::cout << "Deu ruim a textura irmão :(\n";
-	}
-
-}
-
-class Humano{
+class Zumbi {
     private :
         void criarCabecaList();
         void criarPescocoList();
@@ -82,14 +46,14 @@ class Humano{
         void criarListPontos();
         void DesenhaTudo();
         void reset();
-        Humano();
-        ~Humano();
+        Zumbi();
+        ~Zumbi();
 
 };
 
 #endif
 
-Humano :: Humano(){
+Zumbi :: Zumbi(){
 
     cabeca_x = 0.0f;
     cabeca_y = 0.0f;
@@ -136,17 +100,17 @@ Humano :: Humano(){
 
 }
 
-Humano :: ~Humano(){
+Zumbi :: ~Zumbi(){
 
 }
 
-void Humano :: criarCabecaList(){
+void Zumbi :: criarCabecaList(){
     cabecaList = glGenLists(1);
     glNewList(cabecaList , GL_COMPILE);
 
     glPushMatrix();
         glScalef(0.9f , 1.0f , 1.0f);
-        glColor3f(0.0f, 1.0f, 0.3f); 
+        glColor3f(1.0f, 0.0f, 0.2f); 
         GLUquadricObj *quadratico;
         quadratico = gluNewQuadric();
         //gluQuadricTexture(quadratico ,1);
@@ -166,12 +130,12 @@ void Humano :: criarCabecaList(){
     glEndList();
 }
 
-void Humano :: criarPescocoList(){
+void Zumbi :: criarPescocoList(){
     perscoList = glGenLists(1);
     glNewList(perscoList , GL_COMPILE);
 
     //TexturaHimano = tex.loadBMP_custom("Passa o caminho da imagem");
-    glColor3f(0.0f, 1.0f, 0.8f); 
+    glColor3f(0.0f, 1.0f, 0.0f); 
     GLUquadricObj *quadratico;
     quadratico = gluNewQuadric();
     glScalef(0.9f , 1.0f , 1.0f);
@@ -184,21 +148,18 @@ void Humano :: criarPescocoList(){
     glEndList();
 }
 
-void Humano :: criarTorsoList(){
+void Zumbi :: criarTorsoList(){
     glEnable(GL_TEXTURE_2D);
     glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-    glGenTextures(1, &texID);
     torsoList = glGenLists(1);
-    carregaTextura("vasco.png" , texID);
-
     glNewList(torsoList , GL_COMPILE);
-    glColor3f(0.0f, 1.0f, 0.8f); 
+    glColor3f(0.0f, 1.0f, 0.0f);
     GLUquadricObj *quadratico;
     quadratico = gluNewQuadric();
     glScalef(0.9f , 1.0f , 1.0f);
     glRotatef(90.0f , 1.0f , 0.0f , 0.0f);
     //gluQuadricTexture(quadratico , 1);
-    glBindTexture(GL_TEXTURE_2D , texID);
+   
     glTexCoord2f(0.0, 0.0);
     glTexCoord2f(100.0, 100.0);
     glTexCoord2f(100.0, 0.0);
@@ -215,11 +176,11 @@ void Humano :: criarTorsoList(){
 
 }
 
-void Humano :: criarBracoDirList(){
+void Zumbi :: criarBracoDirList(){
     bracoDList = glGenLists(1);
     
     glNewList(bracoDList , GL_COMPILE);
-    glColor3f(0.0f, 1.0f, 0.8f); 
+    glColor3f(0.0f, 1.0f, 0.0f);
     GLUquadricObj *quadratico;
     quadratico = gluNewQuadric();
     glScalef(0.9f , 1.0f , 1.0f);
@@ -238,11 +199,11 @@ void Humano :: criarBracoDirList(){
     
 }
 
-void Humano :: criarBracoEsqList(){
+void Zumbi :: criarBracoEsqList(){
     bracoEList = glGenLists (1);
 	
     glNewList(bracoEList , GL_COMPILE);
-    glColor3f(0.0f, 1.0f, 0.8f);    
+    glColor3f(0.0f, 1.0f, 0.0f);    
     GLUquadricObj *quadratico;
     quadratico = gluNewQuadric();
     glScalef(0.9f , 1.0f , 1.0f);
@@ -260,13 +221,13 @@ void Humano :: criarBracoEsqList(){
 	glEndList();
 }
 
-void Humano :: criarQuadrilList(){
+void Zumbi :: criarQuadrilList(){
     quadrilList = glGenLists (1);
 	
     glNewList(quadrilList, GL_COMPILE);
 		//Texture tex;
 		//humanTexture = tex.loadBMP_custom("./images/belt.bmp");
-        glColor3f(0.0f, 1.0f, 0.8f); 
+        glColor3f(0.0f, 1.0f, 0.0f); 
 		GLUquadricObj *quadratico;
 		quadratico = gluNewQuadric();
 		glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
@@ -283,12 +244,12 @@ void Humano :: criarQuadrilList(){
 	glEndList();
 }
 
-void Humano :: criarPernaDirList(){
+void Zumbi :: criarPernaDirList(){
     pernaDList = glGenLists (1);
 	glNewList(pernaDList, GL_COMPILE);
 		//Texture tex;
 		//humanTexture = tex.loadBMP_custom("./images/trouser.bmp");
-		glColor3f(0.0f, 1.0f, 0.8f);    
+		glColor3f(0.0f, 1.0f, 0.0f);  
 		GLUquadricObj *quadratico;
 		quadratico = gluNewQuadric();
         glScalef(0.9f , 1.0f , 1.0f);
@@ -299,13 +260,13 @@ void Humano :: criarPernaDirList(){
 	glEndList();
 }
 
-void Humano :: criarPernaEsqList(){
+void Zumbi :: criarPernaEsqList(){
     pernaEList = glGenLists (1);
 	
     glNewList(pernaEList, GL_COMPILE);
 		//Texture tex;
 		//humanTexture = tex.loadBMP_custom("./images/trouser.bmp");
-		glColor3f(0.0f, 1.0f, 0.8f);    
+		glColor3f(0.0f, 1.0f, 0.0f);    
 		GLUquadricObj *quadratico;
 		quadratico = gluNewQuadric();
         glScalef(0.9f , 1.0f , 1.0f);
@@ -322,7 +283,7 @@ void Humano :: criarPernaEsqList(){
 	glEndList();
 }
 
-void Humano :: criarListPontos(){
+void Zumbi :: criarListPontos(){
     criarCabecaList();
     criarPescocoList();
     criarTorsoList();
@@ -333,7 +294,7 @@ void Humano :: criarListPontos(){
     criarPernaEsqList();
 }
 
-void Humano :: DesenhaTudo(){
+void Zumbi :: DesenhaTudo(){
     
     // Quadril
     glPushMatrix();
@@ -418,7 +379,7 @@ void Humano :: DesenhaTudo(){
 }
 
 
-void Humano :: reset(){
+void Zumbi :: reset(){
 	cabeca_x = 0.0f;
     cabeca_y = 0.0f;
     cabeca_z = 0.0f;
@@ -461,108 +422,4 @@ void Humano :: reset(){
     pernaE = 0.0f;
     pernaD = 0.0f;
 
-}
-
-Humano humano;
-
-void init() {
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluPerspective(abertura, aspect, znear, zfar);
-    glMatrixMode(GL_MODELVIEW);
-
-    glClearColor(0.0f,0.0f,0.0f,0.0f);
-
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-    glEnable(GL_DEPTH_TEST);
-    //quadrado = gluNewQuadric();
-   
-    esq.criarListPontos();
-    humano.criarListPontos();
-    zun.criarListPontos();
-}
-
-void display() {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity( );
-
-    gluPerspective(abertura, aspect, znear, zfar);
-
-    glMatrixMode(GL_MODELVIEW);
-
-    glLoadIdentity();
-    gluLookAt(0.0f, 0.0f, 20.0f,  //from. Posicao onde a camera esta posicionada
-              0.0f, 0.0f, 0.0f,  //to. Posicao absoluta onde a camera esta vendo
-              0.0f, 1.0f, 0.0f); //up. Vetor Up.
-
-    glRotatef(shoulder , 0.0f, 1.0f, 0.0f);
-    glRotatef(0.0f, 0.0f, 0.0f, 1.0f);
-    
-    glColor3f(1.0f, 1.0f, 1.0f); 
-    glScalef(0.2f , 0.2f , 0.2f);
-    esq.DesenhaTudo();
-    
-    glScalef(0.2f , 0.2f , 0.2f);
-    glTranslatef(0.0 , 1.0 , 10.0);
-    humano.DesenhaTudo();
-    glTranslatef(10.0 , 1.0 , 10.0);
-    zun.DesenhaTudo();
-    glFlush();
-    glutSwapBuffers();
-}
-
-
-void keyboard(unsigned char key, int x, int y) {
-    
-	switch(key){
-		case 'w':
-		case 'W':
-			shoulder = 180;
-            glutPostRedisplay();
-		break;
-		case 'a':
-		case 'A':
-			shoulder = 270;
-
-            glutPostRedisplay();
-		break;
-		case 's':
-		case 'S':
-			shoulder = 0;
-            glutPostRedisplay();
-		break;
-		case 'd':
-		case 'D':
-            shoulder = 90;
-            glutPostRedisplay();
-		break;
-			
-		break;
-	}
-	
-	std::cout<<"pressionou a tecla [" << shoulder << "]\n";
-}
-
-
-
-int main(int argc, char **argv) {
-    glutInit(&argc, argv);
-
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-
-    glutInitWindowSize (777, 777);
-    glutInitWindowPosition(100, 10);
-    glutCreateWindow("Personagens");
-
-    glutDisplayFunc(display);
-    glutIdleFunc(display);
-    glutKeyboardFunc(keyboard);
-
-    init();
-
-    glutMainLoop();
-    return 0;
 }
