@@ -6,7 +6,7 @@
 
 
 using namespace std;
-
+GLfloat cores[] = { 0.5, 0.4414, 0.3242, 1.0 };
 #ifndef HUMANO_H
 #define HUMANO_H
 
@@ -112,7 +112,7 @@ void Humano :: criarCabecaList(){
 
     glPushMatrix();
         glScalef(0.9f , 1.0f , 1.0f);
-        glColor3f(0.0f, 1.0f, 0.3f); 
+       // glColor3f(0.0f, 1.0f, 0.3f); 
         GLUquadricObj *quadratico;
         quadratico = gluNewQuadric();
         //gluQuadricTexture(quadratico ,1);
@@ -151,8 +151,8 @@ void Humano :: criarPescocoList(){
 }
 
 void Humano :: criarTorsoList(){
-    glEnable(GL_TEXTURE_2D);
-    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+    //glEnable(GL_TEXTURE_2D);
+    //glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
     
     torsoList = glGenLists(1);
    
@@ -162,9 +162,9 @@ void Humano :: criarTorsoList(){
     quadratico = gluNewQuadric();
     glScalef(0.9f , 1.0f , 1.0f);
     glRotatef(90.0f , 1.0f , 0.0f , 0.0f);
-    glTexCoord2f(0.0, 0.0);
-    glTexCoord2f(100.0, 100.0);
-    glTexCoord2f(100.0, 0.0);
+    //glTexCoord2f(0.0, 0.0);
+    //glTexCoord2f(100.0, 100.0);
+    //glTexCoord2f(100.0, 0.0);
     gluCylinder(quadratico , 2.5f , 2.0f , 5.0f , 32 , 32);
     gluDisk(quadratico , 0.0f , 2.5f , 32 , 32);
 
@@ -174,7 +174,7 @@ void Humano :: criarTorsoList(){
     glPopMatrix();
     glRotatef(-90.0f , 1.0f , 0.0f , 0.0f);
     glEndList();
-    glDisable(GL_TEXTURE_2D);
+    //glDisable(GL_TEXTURE_2D);
 
 }
 
@@ -297,7 +297,7 @@ void Humano :: criarListPontos(){
 }
 
 void Humano :: DesenhaTudo(){
-    
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, cores);
     // Quadril
     glPushMatrix();
 		glTranslatef(moverQuadril_x,moverQuadril_y,moverQuadril_z);

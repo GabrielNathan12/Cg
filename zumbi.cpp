@@ -5,7 +5,7 @@
 #include <iostream>
 
 using namespace std;
-
+GLfloat coresZ[] = { 0.5, 0.4414, 0.3242, 1.0 };
 #ifndef ZUMBI_H
 #define ZUMBI_H
 
@@ -149,8 +149,8 @@ void Zumbi :: criarPescocoList(){
 }
 
 void Zumbi :: criarTorsoList(){
-    glEnable(GL_TEXTURE_2D);
-    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+    //glEnable(GL_TEXTURE_2D);
+    //glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
     torsoList = glGenLists(1);
     glNewList(torsoList , GL_COMPILE);
     glColor3f(0.0f, 1.0f, 0.0f);
@@ -160,9 +160,9 @@ void Zumbi :: criarTorsoList(){
     glRotatef(90.0f , 1.0f , 0.0f , 0.0f);
     //gluQuadricTexture(quadratico , 1);
    
-    glTexCoord2f(0.0, 0.0);
-    glTexCoord2f(100.0, 100.0);
-    glTexCoord2f(100.0, 0.0);
+    //glTexCoord2f(0.0, 0.0);
+    //glTexCoord2f(100.0, 100.0);
+    //glTexCoord2f(100.0, 0.0);
     gluCylinder(quadratico , 2.5f , 2.0f , 5.0f , 32 , 32);
     gluDisk(quadratico , 0.0f , 2.5f , 32 , 32);
 
@@ -172,7 +172,7 @@ void Zumbi :: criarTorsoList(){
     glPopMatrix();
     glRotatef(-90.0f , 1.0f , 0.0f , 0.0f);
     glEndList();
-    glDisable(GL_TEXTURE_2D);
+    //glDisable(GL_TEXTURE_2D);
 
 }
 
@@ -295,7 +295,7 @@ void Zumbi :: criarListPontos(){
 }
 
 void Zumbi :: DesenhaTudo(){
-    
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, coresZ);
     // Quadril
     glPushMatrix();
 		glTranslatef(moverQuadril_x,moverQuadril_y,moverQuadril_z);
