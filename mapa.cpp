@@ -191,6 +191,62 @@ void desenhaPersonagem(){
 
    	personagem.DesenhaTudo();
 	
+	glTranslatef(15.0f,0.0f,15.0f);
+	   //glTranslatef (xC, 0.0, zC);
+	   //glRotatef (45.0, 0.0, 0.0, 1.0);
+	   //glRotatef (45.0, 1.0, 0.0, 0.0);
+	   //glMaterialfv(GL_FRONT, GL_DIFFUSE, cube_diffuse);
+	   //glutSolidCube (0.7);
+	glPopMatrix();
+
+
+	glPushMatrix();
+   		glBindTexture(GL_TEXTURE_2D, 0);
+  		glTranslatef(1.0 , 1.0 , 1.0);
+  		glScalef(0.01 , 0.01, 0.01);
+		glRotatef(animacao, 0.0f, 1.0f, 0.0f);
+   		glRotatef(0.0f, 0.0f, 0.0f, 1.0f);
+		glColor3f(1.0f , 1.0f, 0.0f);
+
+   	esqueleto.DesenhaTudo();
+	
+	glTranslatef(15.0f,0.0f,15.0f);
+	   //glTranslatef (xC, 0.0, zC);
+	   //glRotatef (45.0, 0.0, 0.0, 1.0);
+	   //glRotatef (45.0, 1.0, 0.0, 0.0);
+	   //glMaterialfv(GL_FRONT, GL_DIFFUSE, cube_diffuse);
+	   //glutSolidCube (0.7);
+	glPopMatrix();
+	
+	glPushMatrix();
+   		glBindTexture(GL_TEXTURE_2D, 0);
+  		glTranslatef(1.0 , 1.0 , 1.0);
+  		glScalef(0.01 , 0.01, 0.01);
+		glRotatef(animacao, 0.0f, 1.0f, 0.0f);
+   		glRotatef(0.0f, 0.0f, 0.0f, 1.0f);
+		glColor3f(1.0f , 1.0f, 0.0f);
+
+   	zumbi.DesenhaTudo();
+	
+	glTranslatef(15.0f,0.0f,15.0f);
+	   //glTranslatef (xC, 0.0, zC);
+	   //glRotatef (45.0, 0.0, 0.0, 1.0);
+	   //glRotatef (45.0, 1.0, 0.0, 0.0);
+	   //glMaterialfv(GL_FRONT, GL_DIFFUSE, cube_diffuse);
+	   //glutSolidCube (0.7);
+	glPopMatrix();
+
+
+	glPushMatrix();
+   		glBindTexture(GL_TEXTURE_2D, 0);
+  		glTranslatef(1.0 , 1.0 , 1.0);
+  		glScalef(0.01 , 0.01, 0.01);
+		glRotatef(animacao, 0.0f, 1.0f, 0.0f);
+   		glRotatef(0.0f, 0.0f, 0.0f, 1.0f);
+		glColor3f(1.0f , 1.0f, 0.0f);
+
+   	lobinho.DesenhaTudo();
+	
 	glTranslatef(5.0f,0.0f,15.0f);
 	   //glTranslatef (xC, 0.0, zC);
 	   //glRotatef (45.0, 0.0, 0.0, 1.0);
@@ -198,6 +254,7 @@ void desenhaPersonagem(){
 	   //glMaterialfv(GL_FRONT, GL_DIFFUSE, cube_diffuse);
 	   //glutSolidCube (0.7);
 	glPopMatrix();
+
    glutSwapBuffers();
 	
 }
@@ -239,7 +296,9 @@ void init(){
 	configLuz();
 
 	personagem.criarListPontos();
-	//Aqui vai continuar instanciando os pontos
+	esqueleto.criarListPontos();
+	zumbi.criarListPontos();
+	lobinho.criarListPontos();
 
 	
 }
