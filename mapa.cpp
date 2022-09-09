@@ -190,7 +190,7 @@ void desenhaPersonagem(){
 
    	personagem.DesenhaTudo();
 	
-	glTranslatef(movix,0.0f,moviz);
+	glTranslatef(5.0f,0.0f,15.0f);
 	   //glTranslatef (xC, 0.0, zC);
 	   //glRotatef (45.0, 0.0, 0.0, 1.0);
 	   //glRotatef (45.0, 1.0, 0.0, 0.0);
