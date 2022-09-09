@@ -1,0 +1,3 @@
+﻿  ai.cpp
+C:\Users\alvar\Documents\Code\cpp\CG_AI\CG_AI\ai.cpp(12,13): warning C4244: 'return': conversão de 'double' para 'float', possível perda de dados
+  CG_AI.vcxproj -> C:\Users\alvar\Documents\Code\cpp\CG_AI\x64\Debug\CG_AI.exe
