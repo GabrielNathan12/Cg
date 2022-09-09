@@ -26,6 +26,7 @@ int count = 0;
 GLuint texIDMapa;
 GLuint texIDFolha;
 
+float animacao = 0;
 float const cam_pers = 0.2; // constante para manter a sincronia de movimento do personagem com a camera 
 
 float x = 0.0, y = 0.0; // coordenadas da camera
@@ -184,7 +185,7 @@ void desenhaPersonagem(){
    		glBindTexture(GL_TEXTURE_2D, 0);
   		glTranslatef(xC , 1.0 , zC);
   		glScalef(0.01 , 0.01, 0.01);
-		glRotatef(0.0f, 0.0f, 1.0f, 0.0f);
+		glRotatef(animacao, 0.0f, 1.0f, 0.0f);
    		glRotatef(0.0f, 0.0f, 0.0f, 1.0f);
 		glColor3f(1.0f , 1.0f, 0.0f);
 
@@ -283,7 +284,11 @@ void KeyboardFunc ( unsigned char key, int x, int y )
 			zC = zC - cam_pers;
 			m_veloc = m_dir * m_scl;
 			m_pos = m_pos + m_veloc;
+			animacao += 20;
 
+			if(animacao > 180){
+				animacao = 180;
+			}
 			ChangeSize(777,777);
 		break;
 		case 'a':
@@ -291,6 +296,12 @@ void KeyboardFunc ( unsigned char key, int x, int y )
 			xC = xC - cam_pers;
 			m_veloc = m_left * m_scl;
 			m_pos = m_pos + m_veloc;
+
+			animacao += 20;
+
+			if(animacao > 270){
+				animacao = 270;
+			}
 			ChangeSize(777,777);
 
 		break;
@@ -299,6 +310,7 @@ void KeyboardFunc ( unsigned char key, int x, int y )
 			zC = zC + cam_pers;
 			m_veloc = m_dir * (-m_scl);
 			m_pos = m_pos + m_veloc;
+			animacao = 0;
 			ChangeSize(777,777);
 		break;
 		case 'd':
@@ -306,6 +318,11 @@ void KeyboardFunc ( unsigned char key, int x, int y )
 			xC = xC + cam_pers;
 			m_veloc = m_left * (-m_scl);
 			m_pos = m_pos + m_veloc;
+			animacao += 20;
+
+			if(animacao > 90){
+				animacao = 90;
+			}
 			ChangeSize(777,777);
 		break;
 
